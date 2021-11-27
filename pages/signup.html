@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Signup</title>
+    <link rel="stylesheet" href="/css/accounts.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <main>
+        <form autocomplete="off" class="container" id="signup-form">
+            <div class="field__box">
+                <i class='bx bx-user field__icon'></i>
+                <input autocapitalize="words" type="text" placeholder="Name" class="form__input" id="name" required>
+            </div>
+            <div class="field__box">
+                <i class='bx bx-mail-send field__icon' ></i>
+                <input type="email" placeholder="Email" class="form__input" id="email" required>
+            </div>
+            <div class="field__box">
+                <i class='bx bx-lock-alt field__icon'></i>
+                <input type="password" placeholder="Password" class="form__input" id="password" required minlength="6">
+            </div>
+            <button type="submit" class="button__submit">Register</button>
+            <a href="/pages/login.html" class="register__link">Already have an account? Login</a>
+        </form>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script type="module">
+        const firebaseConfig = {
+          apiKey: "AIzaSyAhQJU4iGZaNXnmfShnTDd0E4Sm9TkP_EE",
+          authDomain: "todoapp-24991.firebaseapp.com",
+          projectId: "todoapp-24991",
+          storageBucket: "todoapp-24991.appspot.com",
+          messagingSenderId: "187433391782",
+          appId: "1:187433391782:web:c07c3c9abe1be16c638667"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const signupForm = document.getElementById("signup-form");
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = signupForm["name"].value;
+            const email = signupForm["email"].value;
+            const password = signupForm["password"].value;
+            signupForm.reset();
+            auth.createUserWithEmailAndPassword(email, password).then(cred=>{
+                return db.collection('users').doc(cred.user.uid).set({
+                    Name: name,
+                    Email: email,
+                    Password: password,
+                }).then(() => {
+                    location="/pages/login.html";
+                }).catch((error) => {
+                    console.log(error.message);
+                })
+            }).catch((error) => {
+                console.log(error.message);
+            })
+        })
+    </script>
+</body>
+</html>

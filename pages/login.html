@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Login</title>
+    <link rel="stylesheet" href="/css/accounts.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <main>
+        <form autocomplete="off" class="container" id="login-form">
+            <div class="field__box">
+                <i class='bx bx-mail-send field__icon' ></i>
+                <input type="email" placeholder="Email" class="form__input" id="email" required>
+            </div>
+            <div class="field__box">
+                <i class='bx bx-lock-alt field__icon'></i>
+                <input type="password" placeholder="Password" class="form__input" id="password" required minlength="6">
+            </div>
+            <button type="submit" class="button__submit">Login</button>
+            <a href="/pages/signup.html" class="register__link">Don't have an account? Signup</a>
+        </form>
+    </main>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <!-- Firebase Products -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+
+    <script type="module">
+        const firebaseConfig = {
+          apiKey: "AIzaSyAhQJU4iGZaNXnmfShnTDd0E4Sm9TkP_EE",
+          authDomain: "todoapp-24991.firebaseapp.com",
+          projectId: "todoapp-24991",
+          storageBucket: "todoapp-24991.appspot.com",
+          messagingSenderId: "187433391782",
+          appId: "1:187433391782:web:c07c3c9abe1be16c638667"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const loginForm = document.getElementById("login-form")
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const loginEmail = loginForm["email"].value;
+            const loginPassword = loginForm["password"].value;
+            auth.signInWithEmailAndPassword(loginEmail, loginPassword).then(() => {
+                location="/pages/user.html"
+            }).catch((error) => {
+                console.log(error.message);
+            })
+        })
+    </script>
+    <script src="/js/login.js"></script>
+</body>
+</html>

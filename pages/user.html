@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+
+    <link rel="stylesheet" href="/css/user.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body">
+
+    <div class="container">
+        <h2 class="title">Welcome <span id="username"></span>!</h2>
+        <span class="subtitle">What do you need to do today?</span>
+    </div>
+
+    <form action="" id="form" autocomplete="off" autocapitalize="on" class="todo__form">
+        <div class="field__box">
+            <i class='bx bx-plus field__icon'></i>
+            <input type="text" placeholder="Add new item" class="form__input" id="todos">
+        </div>
+        <button type="submit" style="display: none;"></button>
+    </form>
+
+    <button type="button" onclick="logout();" id="logout" class="button__logout">Logout</button>
+
+
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script type="module">
+        const firebaseConfig = {
+          apiKey: "AIzaSyAhQJU4iGZaNXnmfShnTDd0E4Sm9TkP_EE",
+          authDomain: "todoapp-24991.firebaseapp.com",
+          projectId: "todoapp-24991",
+          storageBucket: "todoapp-24991.appspot.com",
+          messagingSenderId: "187433391782",
+          appId: "1:187433391782:web:c07c3c9abe1be16c638667"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+
+        auth.onAuthStateChanged((user) => {
+            if(user){
+
+            }else{
+                location = "/index.html";
+            }
+        });
+
+
+        auth.onAuthStateChanged((user) => {
+            if(user){
+                const username = document.getElementById("username");
+                db.collection('users').doc(user.uid).get().then((data) => {
+                    username.innerText = data.data().Name;
+                })
+            }
+        });
+
+
+        const form = document.getElementById("form");
+        const date = new Date();
+        const time = date.getTime();
+        let counter = time;
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const todos = form["todos"].value
+            let id = counter += 1;
+            form.reset();
+            auth.onAuthStateChanged((user) => {
+                if(user){
+                    db.collection(user.uid).doc('_'+id).set({
+                        id: '_'+id,
+                        todos
+                    }).then(() => {
+
+                    }).catch((error) => {
+                        console.log(error.message);
+                    })
+                }
+            })
+        })
+
+        function logout(){
+            auth.signOut();
+        }
+    </script>
+</body>
+</html>
