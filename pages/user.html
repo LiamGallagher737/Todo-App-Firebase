@@ -24,7 +24,9 @@
         <button type="submit" style="display: none;"></button>
     </form>
 
-    <button type="button" onclick="logout();" id="logout" class="button__logout">Logout</button>
+    <div class="todo-container" id="todo-container"></div>
+
+    <button type="button" id="logout" class="button__logout">Logout</button>
 
 
     
@@ -47,6 +49,8 @@
         const db = firebase.firestore();
 
 
+        const todoContainer = document.getElementById('todo-container');
+
         auth.onAuthStateChanged((user) => {
             if(user){
 
@@ -55,6 +59,33 @@
             }
         });
 
+        function renderData(individualDoc){
+            let parentDiv = document.createElement("div");
+            parentDiv.className = "container todo-box";
+            parentDiv.setAttribute('data-id', individualDoc.id);
+
+            let todoDiv = document.createElement("div");
+            todoDiv.textContent = individualDoc.data().todos;
+
+            let trash = document.createElement("button");
+            let i = document.createElement('i');
+            i.className = 'bx bx-trash todo-trash-btn';
+
+            trash.appendChild(i);
+            parentDiv.appendChild(todoDiv);
+            parentDiv.appendChild(trash);
+            todoContainer.appendChild(parentDiv);
+
+            trash.addEventListener('click', e => {
+            let id = e.target.parentNode.parentNode.getAttribute('data-id');
+            console.log(id)
+            auth.onAuthStateChanged(user => {
+                if (user && id) {
+                    db.collection(user.uid).doc(id).delete();
+                }
+            })
+        })
+        }
 
         auth.onAuthStateChanged((user) => {
             if(user){
@@ -73,25 +104,44 @@
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const todos = form["todos"].value
-            let id = counter += 1;
-            form.reset();
-            auth.onAuthStateChanged((user) => {
-                if(user){
-                    db.collection(user.uid).doc('_'+id).set({
-                        id: '_'+id,
-                        todos
-                    }).then(() => {
-
-                    }).catch((error) => {
-                        console.log(error.message);
-                    })
-                }
-            })
+            if(todos !== ""){
+                let id = counter += 1;
+                form.reset();
+                auth.onAuthStateChanged((user) => {
+                    if(user){
+                        db.collection(user.uid).doc('_'+id).set({
+                            id: '_'+id,
+                            todos
+                        }).then(() => {
+    
+                        }).catch((error) => {
+                            console.log(error.message);
+                        })
+                    }
+                })
+            }
         })
 
-        function logout(){
+        document.getElementById("logout").addEventListener('click', () => {
             auth.signOut();
-        }
+        });
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                db.collection(user.uid).onSnapshot((snapshot) => {
+                    let changes = snapshot.docChanges();
+                    changes.forEach(change => {
+                        if (change.type == "added") {
+                            renderData(change.doc);
+                        }
+                        else if (change.type == 'removed') {
+                            let li = todoContainer.querySelector('[data-id=' + change.doc.id + ']');
+                            todoContainer.removeChild(li);
+                        }
+                    })
+                })
+            }
+        })
     </script>
 </body>
 </html>
