@@ -11,37 +11,13 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
-<body onload="loadbody();">
-    
-    <header>
-        <h3>Hello <span>User</span>!</h3>
-        <h5>What would you need to do today?</h5>
-
-        <a href="pages/signup.html">Sign Up</a>
-        <a href="pages/login.html">Login</a>
-    </header>
-
-
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
-    <!-- Firebase Products -->
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
-
-    <script type="module">
-        const firebaseConfig = {
-          apiKey: "AIzaSyAhQJU4iGZaNXnmfShnTDd0E4Sm9TkP_EE",
-          authDomain: "todoapp-24991.firebaseapp.com",
-          projectId: "todoapp-24991",
-          storageBucket: "todoapp-24991.appspot.com",
-          messagingSenderId: "187433391782",
-          appId: "1:187433391782:web:c07c3c9abe1be16c638667"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-    </script>
-    <script src="js/index.js"></script>
+<body>
+    <main>
+        <div class="container">
+            <a class="link" href="pages/signup.html">Sign Up</a>
+            <br>
+            <a class="link" href="pages/login.html">Login</a>
+        </div>
+    </main>
 </body>
 </html>
