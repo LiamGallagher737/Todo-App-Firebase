@@ -31,24 +31,25 @@ main{
 }
 
 .container{
-    max-width: 768px;
-    display: grid;
-    align-self: center;
+  width: 90vw;
+  max-width: 768px;
+  display: grid;
+  align-self: center;
 }
 
 .title, .subtitle{
-    text-align: center;
+  text-align: center;
 }
 
 .title{
-    font-weight: 400;
-    font-size: 2rem;
-    color: var(--first-color);
-    margin-bottom: 1rem;
+  font-weight: 400;
+  font-size: 2rem;
+  color: var(--first-color);
+  margin-bottom: 1rem;
 }
 
 .subtitle{
-    color: var(--first-color-light);
+  color: var(--first-color-light);
 }
 
 .field__box{
@@ -76,6 +77,32 @@ main{
 .form__input::placeholder{
   font-size: var(--normal-font-size);
   color: var(--first-color-light);
+}
+
+.todo-box{
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: .5rem;
+  padding: 1.125rem 1rem;
+  background-color: #fff;
+  margin-top: 1rem;
+  border-radius: .5rem;
+}
+
+.todo-text{
+  width: 80vw;
+  max-width: 700px;
+}
+
+.todo-trash-btn{
+  font-size: 1.2rem;
+  color: var(--first-color);
+  width: 100%;
+  text-align: right;
+}
+
+.todo-trash-btn:hover{
+  cursor: pointer;
 }
 
 .button__logout{

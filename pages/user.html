@@ -67,9 +67,11 @@
             parentDiv.setAttribute('data-id', individualDoc.id);
 
             let todoDiv = document.createElement("div");
+            todoDiv.className = "todo-text";
             todoDiv.textContent = individualDoc.data().todos;
 
-            let trash = document.createElement("button");
+            let trash = document.createElement("div");
+            trash.className = "todo-trash";
             let i = document.createElement('i');
             i.className = 'bx bx-trash todo-trash-btn';
 
