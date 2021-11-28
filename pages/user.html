@@ -11,22 +11,24 @@
 </head>
 <body">
 
-    <div class="container">
-        <h2 class="title">Welcome <span id="username"></span>!</h2>
-        <span class="subtitle">What do you need to do today?</span>
-    </div>
-
-    <form action="" id="form" autocomplete="off" autocapitalize="on" class="todo__form">
-        <div class="field__box">
-            <i class='bx bx-plus field__icon'></i>
-            <input type="text" placeholder="Add new item" class="form__input" id="todos">
+    <main>        
+        <div class="container">
+            <h2 class="title">Welcome <span id="username"></span>!</h2>
+            <span class="subtitle">What do you need to do today?</span>
         </div>
-        <button type="submit" style="display: none;"></button>
-    </form>
-
-    <div class="todo-container" id="todo-container"></div>
-
-    <button type="button" id="logout" class="button__logout">Logout</button>
+    
+        <form action="" id="form" autocomplete="off" autocapitalize="on" class="todo__form">
+            <div class="field__box">
+                <i class='bx bx-plus field__icon'></i>
+                <input type="text" placeholder="Add new item" class="form__input" id="todos">
+            </div>
+            <button type="submit" style="display: none;"></button>
+        </form>
+    
+        <div class="todo-container" id="todo-container"></div>
+    
+        <button type="button" id="logout" class="button__logout">Logout</button>
+    </main>
 
 
     

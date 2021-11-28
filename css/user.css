@@ -20,6 +20,16 @@ body{
   background-color: var(--first-color-lighten);
 }
 
+main, .container{
+  display: grid;
+}
+
+main{
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
 .container{
     max-width: 768px;
     display: grid;
@@ -81,4 +91,5 @@ body{
   border: none;
   font-size: var(--normal-font-size);
   cursor: pointer;
+  justify-self: center;
 }
